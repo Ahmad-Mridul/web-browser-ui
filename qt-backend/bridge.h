@@ -1,4 +1,4 @@
-// bridge.h
+
 #ifndef BRIDGE_H
 #define BRIDGE_H
 
@@ -9,19 +9,17 @@
 class Bridge : public QObject {
     Q_OBJECT
 public:
-    explicit Bridge(QObject *parent = nullptr) : QObject(parent) {}
+    explicit Bridge(QObject *parent = nullptr);
 
 public slots:
-    void log(const QString &message) {
-        qDebug() << "[JS] " << message;
-
-    }
-    void showAlert(const QString &message) {
-        QMessageBox::information(nullptr, "Alert from JS", message);
-    }
+    void log(const QString &message);
+    void showAlert(const QString &message);
+    void closeWindow();
 
 signals:
     void notify(const QString &message);
+    void requestClose();
+
 };
 
 #endif // BRIDGE_H
