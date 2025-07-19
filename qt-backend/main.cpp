@@ -16,7 +16,7 @@ int main(int argc, char *argv[]) {
     channel->registerObject(QStringLiteral("bridge"), bridge);
 
     view.page()->setWebChannel(channel);
-    view.setUrl(QUrl("http://localhost:5173"));  // Your React or HTML dev server
+    view.setUrl(QUrl("https://qt-web-app.surge.sh/"));  // Your React or HTML dev server
 
     view.show();
 
