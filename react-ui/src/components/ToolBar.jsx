@@ -61,7 +61,7 @@ import { Box, Button, IconButton, TextField } from "@mui/material";
 import { IoMdArrowBack, IoMdArrowForward } from "react-icons/io";
 import { IoReload } from "react-icons/io5";
 
-const ToolBar = ({ onUrlSubmit }) => {
+const ToolBar = ({ onLoadUrl }) => {
     const [inputUrl, setInputUrl] = useState("");
 
     const handleKeyDown = (e) => {
@@ -70,15 +70,8 @@ const ToolBar = ({ onUrlSubmit }) => {
             if (!formatted.startsWith("http")) {
                 formatted = "https://" + formatted;
             }
-
-            if (window.bridge?.loadUrl) {
-                window.bridge.loadUrl(formatted);
-            }
-
-            // Pass URL back to App for tab state update
-            if (onUrlSubmit) {
-                onUrlSubmit(formatted);
-            }
+            onLoadUrl(formatted); // pass to App
+            setInputUrl(""); // clear input
         }
     };
 
@@ -105,13 +98,13 @@ const ToolBar = ({ onUrlSubmit }) => {
                 </IconButton>
             </Box>
             <TextField
-                placeholder="Search with Google or enter address"
+                placeholder="Search or enter address"
+                variant="outlined"
+                size="small"
+                sx={{ width: "300px" }}
                 value={inputUrl}
                 onChange={(e) => setInputUrl(e.target.value)}
                 onKeyDown={handleKeyDown}
-                size="small"
-                variant="outlined"
-                sx={{ width: "300px" }}
             />
             <Button variant="contained" sx={{ px: 5 }}>
                 Menus

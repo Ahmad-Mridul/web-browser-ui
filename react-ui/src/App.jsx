@@ -1,4 +1,5 @@
-import * as React from "react";
+// App.jsx
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -8,18 +9,16 @@ import CloseIcon from "@mui/icons-material/Close";
 import ToolBar from "./components/ToolBar";
 import Home from "./pages/Home/Home";
 import WindowControls from "./components/WindowControls";
-import logo from "./assets/logo.png"; // <-- Import your logo here
+import logo from "./assets/logo.png";
 import "./index.css";
 
 function CustomTabPanel(props) {
     const { children, value, index, ...other } = props;
-
     return (
         <div
             role="tabpanel"
             hidden={value !== index}
             id={`simple-tabpanel-${index}`}
-            aria-labelledby={`simple-tab-${index}`}
             {...other}
         >
             {value === index && children}
@@ -34,10 +33,9 @@ CustomTabPanel.propTypes = {
 };
 
 export default function BasicTabs() {
-    const [tabs, setTabs] = React.useState([
-        { label: "", content: "Item One", url: "" },
-    ]);
-    const [value, setValue] = React.useState(0);
+    const [tabs, setTabs] = useState([{ url: "" }]);
+    const [value, setValue] = useState(0);
+
 
     React.useEffect(() => {
         if (typeof QWebChannel === "undefined") {
@@ -60,8 +58,14 @@ export default function BasicTabs() {
         });
     }, [value, setTabs]);
 
-    // Your tabs hold objects, currently only label & content
-    // Add url property; if no url, show "New Tab" + logo icon
+
+    const handleLoadUrl = (url) => {
+        setTabs((prev) =>
+            prev.map((tab, i) =>
+                i === value ? { ...tab, url } : tab
+            )
+        );
+    };
 
     const handleChange = (event, newValue) => {
         if (newValue === tabs.length) {
@@ -73,52 +77,24 @@ export default function BasicTabs() {
 
     const handleAddTab = () => {
         const newIndex = tabs.length;
-        setTabs((prev) => [
-            ...prev,
-            {
-                label: "",
-                content: `Content for Item ${newIndex + 1}`,
-                url: "",
-            },
-        ]);
+        setTabs((prev) => [...prev, { url: "" }]);
         setValue(newIndex);
     };
 
     const handleCloseTab = (indexToClose) => {
-        if (tabs.length === 1) {
-            if (
-                window.bridge &&
-                typeof window.bridge.closeWindow === "function"
-            ) {
-                window.bridge.closeWindow();
-            } else {
-                console.warn("window.bridge.closeWindow is not available");
-            }
-            return;
-        }
+        if (tabs.length === 1) return;
 
         setTabs((prevTabs) => {
             const newTabs = prevTabs.filter((_, i) => i !== indexToClose);
-
-            if (value === indexToClose) {
-                setValue(indexToClose === 0 ? 0 : indexToClose - 1);
-            } else if (value > indexToClose) {
-                setValue(value - 1);
+            if (value >= newTabs.length) {
+                setValue(newTabs.length - 1);
             }
-
             return newTabs;
         });
     };
-    const handleUrlSubmit = (url) => {
-        setTabs((prevTabs) =>
-            prevTabs.map((tab, index) =>
-                index === value ? { ...tab, url } : tab
-            )
-        );
-    };
+
     return (
         <Box sx={{ width: "100%" }}>
-            {/* Tabs */}
             <Box
                 sx={{
                     display: "flex",
@@ -132,7 +108,6 @@ export default function BasicTabs() {
                 <Tabs
                     value={value}
                     onChange={handleChange}
-                    aria-label="tabs with add and close"
                     variant="scrollable"
                     scrollButtons="auto"
                     sx={{ flexGrow: 1 }}
@@ -141,33 +116,13 @@ export default function BasicTabs() {
                         <Tab
                             key={index}
                             label={
-                                <Box
-                                    sx={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                    }}
-                                >
-                                    {/* Larger icon */}
+                                <Box sx={{ display: "flex", alignItems: "center" }}>
                                     <img
                                         src={logo}
                                         alt="logo"
-                                        style={{
-                                            width: 20,
-                                            height: 20,
-                                            marginRight: 6,
-                                        }}
+                                        style={{ width: 20, height: 20, marginRight: 6 }}
                                     />
-                                    {/* Smaller text */}
-                                    <Box
-                                        component="span"
-                                        sx={{
-                                            fontSize: "0.75rem",
-                                            lineHeight: 1,
-                                        }}
-                                    >
-                                        New Tab
-                                    </Box>
-                                    {/* Close button */}
+                                    <span style={{ fontSize: "0.75rem" }}>New Tab</span>
                                     <Box
                                         component="span"
                                         onClick={(e) => {
@@ -180,7 +135,7 @@ export default function BasicTabs() {
                                             borderRadius: "50%",
                                             padding: "2px",
                                             "&:hover": {
-                                                backgroundColor: "#f0f0f0", // Light gray on hover
+                                                backgroundColor: "#f0f0f0",
                                             },
                                         }}
                                     >
@@ -190,18 +145,7 @@ export default function BasicTabs() {
                             }
                         />
                     ))}
-                    <Tab
-                        className="text-4xl"
-                        label="+"
-                        sx={{
-                            fontSize: "1.5rem",
-                            minWidth: "40px",
-                            "&:hover": {
-                                backgroundColor: "#e0e0e0", // light gray background on hover
-                                borderRadius: "6px",
-                            },
-                        }}
-                    />
+                    <Tab label="+" />
                 </Tabs>
 
                 <Box sx={{ flexShrink: 0, pr: 1 }}>
@@ -209,14 +153,11 @@ export default function BasicTabs() {
                 </Box>
             </Box>
 
-            {/* Toolbar */}
-            <ToolBar onUrlSubmit={handleUrlSubmit} />
+            <ToolBar onLoadUrl={handleLoadUrl} />
 
-            {/* Tab content */}
             {tabs.map((tab, index) => (
                 <CustomTabPanel key={index} value={value} index={index}>
-                    {/* Pass url or other props if needed */}
-                    <Home />
+                    <Home url={tab.url} />
                 </CustomTabPanel>
             ))}
         </Box>
