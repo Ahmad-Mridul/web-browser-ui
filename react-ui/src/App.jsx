@@ -34,6 +34,11 @@ CustomTabPanel.propTypes = {
 };
 
 export default function BasicTabs() {
+    const [tabs, setTabs] = React.useState([
+        { label: "", content: "Item One", url: "" },
+    ]);
+    const [value, setValue] = React.useState(0);
+
     React.useEffect(() => {
         if (typeof QWebChannel === "undefined") {
             console.error(
@@ -44,18 +49,19 @@ export default function BasicTabs() {
         new QWebChannel(qt.webChannelTransport, (channel) => {
             window.bridge = channel.objects.bridge;
 
-            window.bridge.notify.connect((msg) => {
-                console.log("Received signal from C++:", msg);
+            window.bridge.updateTitle.connect((title) => {
+                console.log("Page title changed:", title);
+                setTabs((prevTabs) =>
+                    prevTabs.map((tab, index) =>
+                        index === value ? { ...tab, label: title } : tab
+                    )
+                );
             });
         });
-    }, []);
+    }, [value, setTabs]);
 
     // Your tabs hold objects, currently only label & content
     // Add url property; if no url, show "New Tab" + logo icon
-    const [tabs, setTabs] = React.useState([
-        { label: "", content: "Item One", url: "" },
-    ]);
-    const [value, setValue] = React.useState(0);
 
     const handleChange = (event, newValue) => {
         if (newValue === tabs.length) {
@@ -103,7 +109,13 @@ export default function BasicTabs() {
             return newTabs;
         });
     };
-
+    const handleUrlSubmit = (url) => {
+        setTabs((prevTabs) =>
+            prevTabs.map((tab, index) =>
+                index === value ? { ...tab, url } : tab
+            )
+        );
+    };
     return (
         <Box sx={{ width: "100%" }}>
             {/* Tabs */}
@@ -198,7 +210,7 @@ export default function BasicTabs() {
             </Box>
 
             {/* Toolbar */}
-            <ToolBar />
+            <ToolBar onUrlSubmit={handleUrlSubmit} />
 
             {/* Tab content */}
             {tabs.map((tab, index) => (

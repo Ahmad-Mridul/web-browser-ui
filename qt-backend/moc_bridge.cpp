@@ -43,9 +43,22 @@ template <> constexpr inline auto Bridge::qt_create_metaobjectdata<qt_meta_tag_Z
         "",
         "message",
         "requestClose",
+        "requestMinimize",
+        "requestMaximize",
+        "requestLocalStorage",
+        "requestLoadUrl",
+        "url",
+        "updateTitle",
+        "title",
         "log",
         "showAlert",
-        "closeWindow"
+        "closeWindow",
+        "minimizeWindow",
+        "maximizeWindow",
+        "receiveFromReact",
+        "param1",
+        "param2",
+        "loadUrl"
     };
 
     QtMocHelpers::UintData qt_methods {
@@ -55,16 +68,42 @@ template <> constexpr inline auto Bridge::qt_create_metaobjectdata<qt_meta_tag_Z
         }}),
         // Signal 'requestClose'
         QtMocHelpers::SignalData<void()>(4, 2, QMC::AccessPublic, QMetaType::Void),
+        // Signal 'requestMinimize'
+        QtMocHelpers::SignalData<void()>(5, 2, QMC::AccessPublic, QMetaType::Void),
+        // Signal 'requestMaximize'
+        QtMocHelpers::SignalData<void()>(6, 2, QMC::AccessPublic, QMetaType::Void),
+        // Signal 'requestLocalStorage'
+        QtMocHelpers::SignalData<void()>(7, 2, QMC::AccessPublic, QMetaType::Void),
+        // Signal 'requestLoadUrl'
+        QtMocHelpers::SignalData<void(const QString &)>(8, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::QString, 9 },
+        }}),
+        // Signal 'updateTitle'
+        QtMocHelpers::SignalData<void(const QString &)>(10, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::QString, 11 },
+        }}),
         // Slot 'log'
-        QtMocHelpers::SlotData<void(const QString &)>(5, 2, QMC::AccessPublic, QMetaType::Void, {{
+        QtMocHelpers::SlotData<void(const QString &)>(12, 2, QMC::AccessPublic, QMetaType::Void, {{
             { QMetaType::QString, 3 },
         }}),
         // Slot 'showAlert'
-        QtMocHelpers::SlotData<void(const QString &)>(6, 2, QMC::AccessPublic, QMetaType::Void, {{
+        QtMocHelpers::SlotData<void(const QString &)>(13, 2, QMC::AccessPublic, QMetaType::Void, {{
             { QMetaType::QString, 3 },
         }}),
         // Slot 'closeWindow'
-        QtMocHelpers::SlotData<void()>(7, 2, QMC::AccessPublic, QMetaType::Void),
+        QtMocHelpers::SlotData<void()>(14, 2, QMC::AccessPublic, QMetaType::Void),
+        // Slot 'minimizeWindow'
+        QtMocHelpers::SlotData<void()>(15, 2, QMC::AccessPublic, QMetaType::Void),
+        // Slot 'maximizeWindow'
+        QtMocHelpers::SlotData<void()>(16, 2, QMC::AccessPublic, QMetaType::Void),
+        // Slot 'receiveFromReact'
+        QtMocHelpers::SlotData<void(const QString &, const QString &)>(17, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::QString, 18 }, { QMetaType::QString, 19 },
+        }}),
+        // Slot 'loadUrl'
+        QtMocHelpers::SlotData<void(const QString &)>(20, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::QString, 9 },
+        }}),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -90,9 +129,18 @@ void Bridge::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
         switch (_id) {
         case 0: _t->notify((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
         case 1: _t->requestClose(); break;
-        case 2: _t->log((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
-        case 3: _t->showAlert((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
-        case 4: _t->closeWindow(); break;
+        case 2: _t->requestMinimize(); break;
+        case 3: _t->requestMaximize(); break;
+        case 4: _t->requestLocalStorage(); break;
+        case 5: _t->requestLoadUrl((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
+        case 6: _t->updateTitle((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
+        case 7: _t->log((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
+        case 8: _t->showAlert((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
+        case 9: _t->closeWindow(); break;
+        case 10: _t->minimizeWindow(); break;
+        case 11: _t->maximizeWindow(); break;
+        case 12: _t->receiveFromReact((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QString>>(_a[2]))); break;
+        case 13: _t->loadUrl((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
         default: ;
         }
     }
@@ -100,6 +148,16 @@ void Bridge::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
         if (QtMocHelpers::indexOfMethod<void (Bridge::*)(const QString & )>(_a, &Bridge::notify, 0))
             return;
         if (QtMocHelpers::indexOfMethod<void (Bridge::*)()>(_a, &Bridge::requestClose, 1))
+            return;
+        if (QtMocHelpers::indexOfMethod<void (Bridge::*)()>(_a, &Bridge::requestMinimize, 2))
+            return;
+        if (QtMocHelpers::indexOfMethod<void (Bridge::*)()>(_a, &Bridge::requestMaximize, 3))
+            return;
+        if (QtMocHelpers::indexOfMethod<void (Bridge::*)()>(_a, &Bridge::requestLocalStorage, 4))
+            return;
+        if (QtMocHelpers::indexOfMethod<void (Bridge::*)(const QString & )>(_a, &Bridge::requestLoadUrl, 5))
+            return;
+        if (QtMocHelpers::indexOfMethod<void (Bridge::*)(const QString & )>(_a, &Bridge::updateTitle, 6))
             return;
     }
 }
@@ -123,14 +181,14 @@ int Bridge::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 5)
+        if (_id < 14)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 5;
+        _id -= 14;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 5)
+        if (_id < 14)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 5;
+        _id -= 14;
     }
     return _id;
 }
@@ -145,5 +203,35 @@ void Bridge::notify(const QString & _t1)
 void Bridge::requestClose()
 {
     QMetaObject::activate(this, &staticMetaObject, 1, nullptr);
+}
+
+// SIGNAL 2
+void Bridge::requestMinimize()
+{
+    QMetaObject::activate(this, &staticMetaObject, 2, nullptr);
+}
+
+// SIGNAL 3
+void Bridge::requestMaximize()
+{
+    QMetaObject::activate(this, &staticMetaObject, 3, nullptr);
+}
+
+// SIGNAL 4
+void Bridge::requestLocalStorage()
+{
+    QMetaObject::activate(this, &staticMetaObject, 4, nullptr);
+}
+
+// SIGNAL 5
+void Bridge::requestLoadUrl(const QString & _t1)
+{
+    QMetaObject::activate<void>(this, &staticMetaObject, 5, nullptr, _t1);
+}
+
+// SIGNAL 6
+void Bridge::updateTitle(const QString & _t1)
+{
+    QMetaObject::activate<void>(this, &staticMetaObject, 6, nullptr, _t1);
 }
 QT_WARNING_POP

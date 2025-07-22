@@ -1,54 +1,122 @@
-import TextField from "@mui/material/TextField";
-import InputAdornment from "@mui/material/InputAdornment";
-import { MdSearch } from "react-icons/md";
+// import TextField from "@mui/material/TextField";
+// import InputAdornment from "@mui/material/InputAdornment";
+// import { MdSearch } from "react-icons/md";
+// import Toolbar from "@mui/material/Toolbar";
+// import { IoMdArrowBack, IoMdArrowForward } from "react-icons/io";
+// import { IoReload } from "react-icons/io5";
+// import IconButton from "@mui/material/IconButton";
+// import Box from "@mui/material/Box";
+// import { Button } from "@mui/material";
+// const ToolBar = () => {
+//     return (
+//         <div>
+//             <Toolbar
+//                 sx={{
+//                     backgroundColor: "#f5f5f5",
+//                     borderBottom: 1,
+//                     borderColor: "divider",
+//                     display: "flex",
+//                     justifyContent: "space-between",
+//                     gap:"10px"
+//                 }}
+//             >
+//                 <Box sx={{ display: "flex", alignItems: "center" }}>
+//                     <IconButton size="small">
+//                         <IoMdArrowBack />
+//                     </IconButton>
+//                     <IconButton size="small">
+//                         <IoReload />
+//                     </IconButton>
+//                     <IconButton size="small">
+//                         <IoMdArrowForward />
+//                     </IconButton>
+//                 </Box>
+//                 <TextField
+//                     placeholder="enter address..."
+//                     variant="outlined"
+//                     size="small"
+//                     sx={{ width: "500px" }}
+//                     InputProps={{
+//                         startAdornment: (
+//                             <InputAdornment position="start">
+//                                 <MdSearch />
+//                             </InputAdornment>
+//                         ),
+//                     }}
+//                 />
+//                 <Button variant="contained" sx={{ px: 5 }}>
+//                     Menus
+//                 </Button>
+//             </Toolbar>
+//         </div>
+//     );
+// };
+
+// export default ToolBar;
+
 import Toolbar from "@mui/material/Toolbar";
+import SearchBar from "../pages/Home/SearhcBar/SearchBar";
+import { useState } from "react";
+import { Box, Button, IconButton, TextField } from "@mui/material";
 import { IoMdArrowBack, IoMdArrowForward } from "react-icons/io";
 import { IoReload } from "react-icons/io5";
-import IconButton from "@mui/material/IconButton";
-import Box from "@mui/material/Box";
-import { Button } from "@mui/material";
-const ToolBar = () => {
+
+const ToolBar = ({ onUrlSubmit }) => {
+    const [inputUrl, setInputUrl] = useState("");
+
+    const handleKeyDown = (e) => {
+        if (e.key === "Enter") {
+            let formatted = inputUrl.trim();
+            if (!formatted.startsWith("http")) {
+                formatted = "https://" + formatted;
+            }
+
+            if (window.bridge?.loadUrl) {
+                window.bridge.loadUrl(formatted);
+            }
+
+            // Pass URL back to App for tab state update
+            if (onUrlSubmit) {
+                onUrlSubmit(formatted);
+            }
+        }
+    };
+
     return (
-        <div>
-            <Toolbar
-                sx={{
-                    backgroundColor: "#f5f5f5",
-                    borderBottom: 1,
-                    borderColor: "divider",
-                    display: "flex",
-                    justifyContent: "space-between",
-                    gap:"10px"
-                }}
-            >
-                <Box sx={{ display: "flex", alignItems: "center" }}>
-                    <IconButton size="small">
-                        <IoMdArrowBack />
-                    </IconButton>
-                    <IconButton size="small">
-                        <IoReload />
-                    </IconButton>
-                    <IconButton size="small">
-                        <IoMdArrowForward />
-                    </IconButton>
-                </Box>
-                <TextField
-                    placeholder="enter address..."
-                    variant="outlined"
-                    size="small"
-                    sx={{ width: "500px" }}
-                    InputProps={{
-                        startAdornment: (
-                            <InputAdornment position="start">
-                                <MdSearch />
-                            </InputAdornment>
-                        ),
-                    }}
-                />
-                <Button variant="contained" sx={{ px: 5 }}>
-                    Menus
-                </Button>
-            </Toolbar>
-        </div>
+        <Toolbar
+            sx={{
+                backgroundColor: "#f5f5f5",
+                borderBottom: 1,
+                borderColor: "divider",
+                display: "flex",
+                justifyContent: "space-between",
+                gap: "10px",
+            }}
+        >
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+                <IconButton size="small">
+                    <IoMdArrowBack />
+                </IconButton>
+                <IconButton size="small">
+                    <IoReload />
+                </IconButton>
+                <IconButton size="small">
+                    <IoMdArrowForward />
+                </IconButton>
+            </Box>
+            <TextField
+                placeholder="Search with Google or enter address"
+                value={inputUrl}
+                onChange={(e) => setInputUrl(e.target.value)}
+                onKeyDown={handleKeyDown}
+                size="small"
+                variant="outlined"
+                sx={{ width: "300px" }}
+            />
+            <Button variant="contained" sx={{ px: 5 }}>
+                Menus
+            </Button>
+        </Toolbar>
     );
 };
 
