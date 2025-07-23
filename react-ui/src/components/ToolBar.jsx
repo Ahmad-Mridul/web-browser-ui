@@ -57,9 +57,10 @@
 import Toolbar from "@mui/material/Toolbar";
 import SearchBar from "../pages/Home/SearhcBar/SearchBar";
 import { useState } from "react";
-import { Box, Button, IconButton, TextField } from "@mui/material";
+import { Box, Button, IconButton, TextField, InputAdornment } from "@mui/material";
 import { IoMdArrowBack, IoMdArrowForward } from "react-icons/io";
 import { IoReload } from "react-icons/io5";
+import { MdSearch } from "react-icons/md";
 
 const ToolBar = ({ onLoadUrl }) => {
     const [inputUrl, setInputUrl] = useState("");
@@ -98,14 +99,29 @@ const ToolBar = ({ onLoadUrl }) => {
                 </IconButton>
             </Box>
             <TextField
-                placeholder="Search or enter address"
+                placeholder="enter address..."
                 variant="outlined"
                 size="small"
-                sx={{ width: "300px" }}
+                fullWidth
+                sx={{
+                    width: {
+                        xs: "100%", // mobile
+                        sm: "400px", // small screens
+                        md: "500px", // medium+
+                    },
+                }}
+                InputProps={{
+                    startAdornment: (
+                        <InputAdornment position="start">
+                            <MdSearch />
+                        </InputAdornment>
+                    ),
+                }}
                 value={inputUrl}
                 onChange={(e) => setInputUrl(e.target.value)}
                 onKeyDown={handleKeyDown}
             />
+            
             <Button variant="contained" sx={{ px: 5 }}>
                 Menus
             </Button>

@@ -1,6 +1,5 @@
 import { InputAdornment, TextField } from "@mui/material";
 import { useState } from "react";
-import { MdSearch } from "react-icons/md";
 
 const SearchBar = ({ onLoadUrl }) => {
     const [inputUrl, setInputUrl] = useState("");
@@ -18,24 +17,10 @@ const SearchBar = ({ onLoadUrl }) => {
     return (
         <div className="searchBar">
             <TextField
-                placeholder="enter address..."
+                placeholder="Search or enter address"
                 variant="outlined"
                 size="small"
-                fullWidth
-                sx={{
-                    width: {
-                        xs: "100%", // mobile
-                        sm: "400px", // small screens
-                        md: "500px", // medium+
-                    },
-                }}
-                InputProps={{
-                    startAdornment: (
-                        <InputAdornment position="start">
-                            <MdSearch />
-                        </InputAdornment>
-                    ),
-                }}
+                sx={{ width: "300px" }}
                 value={inputUrl}
                 onChange={(e) => setInputUrl(e.target.value)}
                 onKeyDown={handleKeyDown}
