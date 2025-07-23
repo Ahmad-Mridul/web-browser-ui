@@ -157,7 +157,7 @@ export default function BasicTabs() {
 
             {tabs.map((tab, index) => (
                 <CustomTabPanel key={index} value={value} index={index}>
-                    <Home url={tab.url} />
+                    <Home url={tab.url} onLoadUrl={handleLoadUrl}/>
                 </CustomTabPanel>
             ))}
         </Box>

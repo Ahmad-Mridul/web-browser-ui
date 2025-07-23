@@ -4,7 +4,7 @@ import logo from "../../assets/logo.png";
 import Shortcuts from "./Shortcuts/Shortcuts";
 import SearchBar from "./SearhcBar/SearchBar";
 
-const Home = ({ url }) => {
+const Home = ({ url,onLoadUrl }) => {
     return (
         <div
             style={{ backgroundImage: `url(${bgImage})` }}
@@ -19,7 +19,7 @@ const Home = ({ url }) => {
             ) : (
                 <Box sx={{ mt: -20 }} className="flex flex-col items-center content">
                     <img src={logo} alt="" />
-                    <SearchBar />
+                    <SearchBar onLoadUrl={onLoadUrl}/>
                     <div className="shortcut flex items-center justify-center">
                         <Shortcuts />
                     </div>
